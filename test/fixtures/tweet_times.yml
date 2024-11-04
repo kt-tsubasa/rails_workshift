@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tweet: one
+  day_of_week: 1
+  start_time: 2024-09-30 12:25:21
+  end_time: 2024-09-30 12:25:21
+
+two:
+  tweet: two
+  day_of_week: 1
+  start_time: 2024-09-30 12:25:21
+  end_time: 2024-09-30 12:25:21

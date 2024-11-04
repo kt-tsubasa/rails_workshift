@@ -1,0 +1,17 @@
+<h1>希望一覧</h1>
+
+<% @tweets.each do |tweet| %>
+  <div class="card my-3">
+    <div class="card-body">
+      <h5 class="card-title">ユーザー: <%= tweet.user.name %></h5>
+      <p><strong>曜日:</strong> <%= tweet.day_of_week %></p>
+      <p><strong>開始時間:</strong> <%= tweet.start_time.strftime('%H:%M') %></p>
+      <p><strong>終了時間:</strong> <%= tweet.end_time.strftime('%H:%M') %></p>
+
+      <!-- 個別の削除ボタン -->
+      <%= button_to "削除", user_tweet_path(current_user, tweet), method: :delete, data: { confirm: "このシフト希望を削除しますか？" }, class: "btn btn-danger" %>
+    </div>
+  </div>
+<% end %>
+
+<%= button_to "提出", export_to_google_sheets_user_tweets_path, method: :post, form: { authenticity_token: true }, class: "btn btn-primary mt-3 mx-3" %>

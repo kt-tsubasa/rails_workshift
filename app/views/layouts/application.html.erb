@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang='ja'>
+<head>
+  <title>すし遊館あさひLECT店シフト提出</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <%# 円グラフを描く際に活用 %>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0"></script> 
+  <%# 円グラフにデータを記載する際に活用 %>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script> 
+</head> 
+
+<body class="d-flex flex-column min-vh-100"> 
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark bg-body-tertiary">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <%= image_tag "https://sushiyoukan.com/common/photo/free/images/%E5%BA%97%E5%90%8D%E3%83%AD%E3%82%B4.jpg", width: 100, height: 40, alt: "" %>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <% if user_signed_in? %>
+                <%= link_to 'マイページ', user_path(current_user), class: 'nav-link' %>
+              <% else %>
+                <%= link_to '新規登録', new_user_registration_path, class: 'nav-link' %>
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <% if user_signed_in? %>
+                <%= link_to 'シフト提出', new_user_tweet_path(current_user), class: 'nav-link' %>
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <% if user_signed_in? %>
+                <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'nav-link' %>
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <% if user_signed_in? %>
+                <%= link_to "アカウントを削除", user_registration_path, method: :delete, class: 'nav-link destroy-user', data: { confirm: "本当にアカウントを削除しますか？" } %>
+              <% end %>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <main class="flex-fill">
+    <%= yield %>
+  </main>
+  <footer class="bg-dark mt-4">
+    <div class="d-flex text-light text-center align-items-center"> 
+      <p><small>&copy; 2024 Kishi Tsubasa </small></p>
+    </div>
+  </footer>
+
+  <!-- Popper.jsとBootstrapのJavaScriptをCDNから読み込む -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous" defer></script>
+</body>
+</html>
