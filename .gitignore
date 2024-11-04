@@ -44,7 +44,7 @@ yarn-debug.log*
 /app/views/tweet_times
 /app/views/tweets/copy.html.erb
 /app/views/tweets/show.html.erb
-/app/controllers/users/copy.erb
+/app/controllers/copy.erb
 /app/controllers/tweet_times_controller.rb
 /app/models/tweet_time.rb
 
