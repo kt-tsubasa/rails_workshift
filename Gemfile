@@ -29,7 +29,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '>= 1.4.4', require: false
 
 group :development, :test do
-  gem 'sqlite3' # 開発環境ではsqlite3を利用
+  gem 'sqlite3', '~> 1.4' # 開発環境ではsqlite3を利用
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
@@ -60,3 +60,5 @@ gem 'google_drive', '~> 3.0'
 group :production do
   gem 'pg'
 end
+
+gem 'net-smtp'
