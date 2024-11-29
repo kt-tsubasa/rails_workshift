@@ -51,3 +51,4 @@ db/migrate/20240930032521_create_tweet_times.rb
 
 
 
+.env
