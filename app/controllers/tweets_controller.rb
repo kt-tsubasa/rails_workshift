@@ -41,7 +41,13 @@ class TweetsController < ApplicationController
   end
 
   def export_to_google_sheets
-    session = GoogleDrive::Session.from_config("config/credentials.json")
+    access_token = session[:google_access_token]
+    if access_token.nill?
+      redirect_to auth_google_path, notice: "Google認証が必要です"
+      return
+    end
+
+    session = GoogleDrive::Session.from_access_token(access_token)
     spreadsheet = session.spreadsheet_by_title("シフト表")
     worksheet = spreadsheet.worksheets[0]
 
