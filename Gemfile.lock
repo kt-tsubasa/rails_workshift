@@ -88,6 +88,10 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    dotenv (3.1.4)
+    dotenv-rails (3.1.4)
+      dotenv (= 3.1.4)
+      railties (>= 6.1)
     erubi (1.13.0)
     faraday (1.10.4)
       faraday-em_http (~> 1.0)
@@ -320,7 +324,9 @@ DEPENDENCIES
   byebug
   capybara (>= 3.26)
   devise
+  dotenv-rails
   google_drive (~> 3.0)
+  googleauth (~> 0.9)
   jbuilder (~> 2.7)
   net-smtp
   pg
