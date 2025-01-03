@@ -25,8 +25,8 @@
 このアプリを動かすために必要なライブラリやツールについては、`Gemfile`に記載されています。`bundle install`コマンドを使用して依存関係をインストールしてください。
 
 ## 設定
-1. Google APIの認証情報を取得し、`credentials.json`ファイルを`config`ディレクトリに配置します。
-2. 必要な環境変数を設定します。`.env`ファイルを作成し、以下のように記述してください。
+1. Google APIの認証情報を取得し、`.env`ファイルを`config`ディレクトリに配置します。
+2. 必要な環境変数を設定します。`.env`ファイルを以下のように記述してください。
    ```dotenv
    GOOGLE_CLIENT_ID=your_google_client_id
    GOOGLE_CLIENT_SECRET=your_google_client_secret
