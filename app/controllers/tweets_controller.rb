@@ -34,13 +34,17 @@ class TweetsController < ApplicationController
     redirect_to action: "index"
   end
 
+  def normalize_name(name)
+    # 全角スペースや半角スペースを削除する例
+    name.to_s.gsub(/[ \u3000]+/, "")
+  end 
+
   def export_to_google_sheets
-    # 1) Herokuの環境変数を読み込む
+    # (前半はリフレッシュトークンやアクセストークン取得の処理)
     refresh_token = ENV['GOOGLE_REFRESH_TOKEN']
     client_id     = ENV['GOOGLE_CLIENT_ID']
     client_secret = ENV['GOOGLE_CLIENT_SECRET']
   
-    # 2) Signet::OAuth2::Clientのインスタンスを作る
     client = Signet::OAuth2::Client.new(
       client_id:            client_id,
       client_secret:        client_secret,
@@ -48,7 +52,6 @@ class TweetsController < ApplicationController
       refresh_token:        refresh_token
     )
   
-    # 3) アクセストークンを再取得
     begin
       client.refresh!
     rescue => e
@@ -57,22 +60,23 @@ class TweetsController < ApplicationController
       return
     end
   
-    # 4) google_drive を使う場合
     session = GoogleDrive::Session.from_access_token(client.access_token)
-  
-    # 例: スプレッドシート取得 & 書き込み
     spreadsheet = session.spreadsheet_by_title("シフト表")
     worksheet = spreadsheet.worksheets[0]
   
-    # 書き込むデータを取得
-    tweets = current_user.tweets # or ターゲットユーザーのtweets
+    tweets = current_user.tweets
   
     (1..worksheet.num_rows).each do |row|
       sheet_name = worksheet[row, 2]
-      matching_user = User.find_by(name: sheet_name)
-
-      if matching_user && matching_user.id == current_user
-        # 曜日ごとのカラム割り振りなど、既存ロジックに合わせて書き込み
+      
+      # normalize_name で余分な空白を除去して比較
+      if normalize_name(sheet_name) == normalize_name(current_user.name)
+        # ① まず対象ユーザーのシフトセル（例：列3～9）をクリアする
+        (3..9).each do |col|
+          worksheet[row, col] = ""
+        end
+        
+        # ② 新しいシフト情報を書き込む
         tweets.each do |tweet|
           time_str = "#{tweet.start_time.hour}:#{format('%02d', tweet.start_time.min)}～#{tweet.end_time.hour}:#{format('%02d', tweet.end_time.min)}"
           col_index = case tweet.day_of_week
@@ -91,7 +95,6 @@ class TweetsController < ApplicationController
       end
     end
   
-    # 保存して完了
     worksheet.save
   
     redirect_to new_user_tweet_path(current_user), notice: "Googleスプレッドシートにエクスポートが完了しました"
